@@ -1,0 +1,260 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Question Papers Portal</title>
+
+  <style>
+    *{box-sizing:border-box;margin:0;padding:0}
+
+    body{
+      font-family:'Segoe UI',sans-serif;
+      background:linear-gradient(135deg,#0f2027,#203a43,#2c5364);
+      color:#fff;
+    }
+
+    header{
+      padding:20px;
+      text-align:center;
+      background:rgba(0,0,0,0.6);
+      backdrop-filter: blur(10px);
+    }
+
+    header h1{font-size:22px}
+    header h2{font-size:14px;font-weight:normal;margin-top:5px}
+
+    .search-box{
+      margin-top:15px;
+    }
+
+    .search-box input{
+      width:90%;
+      max-width:400px;
+      padding:10px;
+      border-radius:25px;
+      border:none;
+      outline:none;
+    }
+
+    .container{
+      display:grid;
+      grid-template-columns:repeat(auto-fit,minmax(260px,1fr));
+      gap:15px;
+      padding:15px;
+    }
+
+    .card{
+      background:rgba(255,255,255,0.1);
+      backdrop-filter: blur(10px);
+      padding:15px;
+      border-radius:15px;
+      transition:0.3s;
+    }
+
+    .card:hover{
+      transform:translateY(-5px);
+    }
+
+    .card h2{margin-bottom:10px}
+
+    a{
+      display:block;
+      color:#00d4ff;
+      text-decoration:none;
+      margin:6px 0;
+      cursor:pointer;
+    }
+
+    a:hover{color:#fff}
+
+    /* Modal */
+    .modal{
+      display:none;
+      position:fixed;
+      top:0;
+      left:0;
+      width:100%;
+      height:100%;
+      background:rgba(0,0,0,0.8);
+      justify-content:center;
+      align-items:center;
+    }
+
+    .modal-content{
+      background:#fff;
+      color:#000;
+      width:90%;
+      max-width:800px;
+      padding:15px;
+      border-radius:10px;
+    }
+
+    .modal-content h3{margin-bottom:10px}
+
+    .close{
+      float:right;
+      cursor:pointer;
+      font-size:18px;
+    }
+
+    .pdf-link{
+      display:block;
+      margin:5px 0;
+      color:#2c5364;
+    }
+
+    @media(max-width:600px){
+      header h1{font-size:18px}
+      header h2{font-size:13px}
+    }
+  </style>
+</head>
+<body>
+
+<header>
+  <h1>Seshadripuram First Grade College</h1>
+  <h2>BSC (EMC) Question Papers Portal</h2>
+
+  <div class="search-box">
+    <input type="text" id="searchInput" placeholder="Search subject..." onkeyup="searchFunction()">
+  </div>
+</header>
+
+<div class="container" id="content">
+
+  <div class="card">
+    <h2>Semester 1</h2>
+    <a onclick="openModal('Electronics')">Electronics</a>
+    <a onclick="openModal('Maths')">Maths</a>
+    <a onclick="openModal('Computer Science')">Computer Science</a>
+  </div>
+
+  <div class="card">
+    <h2>Semester 2</h2>
+    <a onclick="openModal('Maths 2')">Maths 2</a>
+    <a onclick="openModal('Electronics 2')">Electronics</a>
+    <a onclick="openModal('Programming')">Programming</a>
+  </div>
+
+  <div class="card">
+    <h2>Semester 3</h2>
+    <a onclick="openModal('Data Structures')">Data Structures</a>
+    <a onclick="openModal('Digital Logic')">Digital Logic</a>
+    <a onclick="openModal('Discrete Maths')">Discrete Maths</a>
+  </div>
+
+  <div class="card">
+    <h2>Semester 4</h2>
+    <a onclick="openModal('Operating Systems')">Operating Systems</a>
+    <a onclick="openModal('DBMS')">DBMS</a>
+    <a onclick="openModal('Microprocessors')">Microprocessors</a>
+  </div>
+
+  <div class="card">
+    <h2>Semester 5</h2>
+    <a onclick="openModal('Computer Networks')">Computer Networks</a>
+    <a onclick="openModal('Artificial Intelligence')">Artificial Intelligence</a>
+    <a onclick="openModal('Software Engineering')">Software Engineering</a>
+  </div>
+
+  <div class="card">
+    <h2>Semester 6</h2>
+    <a onclick="openModal('Machine Learning')">Machine Learning</a>
+    <a onclick="openModal('Cloud Computing')">Cloud Computing</a>
+    <a onclick="openModal('Big Data')">Big Data</a>
+  </div>
+
+</div>
+
+  <div class="card">
+    <h2>Semester 2</h2>
+    <a onclick="openModal('Maths 2')">Maths 2</a>
+    <a onclick="openModal('Electronics 2')">Electronics</a>
+    <a onclick="openModal('Programming')">Programming</a>
+  </div>
+
+</div>
+
+<!-- Modal -->
+<div class="modal" id="modal">
+  <div class="modal-content">
+    <span class="close" onclick="closeModal()">&times;</span>
+    <h3 id="subjectTitle"></h3>
+
+    <div id="papersList">
+      <!-- Dynamic content -->
+    </div>
+  </div>
+</div>
+
+<script>
+function searchFunction(){
+  let input=document.getElementById('searchInput').value.toLowerCase();
+  let cards=document.getElementsByClassName('card');
+
+  for(let i=0;i<cards.length;i++){
+    let links=cards[i].getElementsByTagName('a');
+    let match=false;
+
+    for(let j=0;j<links.length;j++){
+      if(links[j].textContent.toLowerCase().includes(input)){
+        match=true;
+      }
+    }
+
+    cards[i].style.display=match?"":"none";
+  }
+}
+
+function openModal(subject){
+  document.getElementById('modal').style.display='flex';
+  document.getElementById('subjectTitle').innerText=subject;
+
+  // 📂 Define your papers here
+  const papers = {
+    "Maths": [
+      "papers/maths2015.pdf",
+      "papers/maths2016.pdf",
+      "papers/maths2017.pdf",
+      "papers/maths2018.pdf",
+      "papers/maths2019.pdf"
+    ],
+    "Electronics": [
+      "papers/electronics 2015.pdf",
+      "papers/electronics 2016.pdf",
+      "papers/electronics 2017.pdf",
+      "papers/electronics 2018.pdf",
+      "papers/electronics 2019.pdf"
+    ],
+    "Computer Science": [
+      "papers/cs2023.pdf"
+    ],
+    "Data Structures": [
+      "papers/ds2023.pdf"
+    ],
+    "Operating Systems": [
+      "papers/os2023.pdf"
+    ]
+  };
+
+  let content = "";
+
+  if(papers[subject]){
+    papers[subject].forEach((file, index) => {
+      content += `<a class='pdf-link' href='${file}' target='_blank'>Paper ${index+1}</a>`;
+    });
+  } else {
+    content = "<p>No papers uploaded yet</p>";
+  }
+
+  document.getElementById('papersList').innerHTML = content;
+}
+
+function closeModal(){
+  document.getElementById('modal').style.display='none';
+}
+</script>
+
+</body>
+</html>
